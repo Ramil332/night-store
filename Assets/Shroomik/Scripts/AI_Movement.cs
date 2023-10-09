@@ -66,7 +66,7 @@ public class AI_Movement : MonoBehaviour
             _timeLeft = _waitTime;
             _isWaitingServise = true;
         }
-        if (other.CompareTag("Exit"))
+        if (other.CompareTag("Exit") && _isLeaving)
         {
             Destroy(gameObject);
         }
