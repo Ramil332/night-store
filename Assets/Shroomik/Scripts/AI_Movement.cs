@@ -18,6 +18,11 @@ public class AI_Movement : MonoBehaviour
     private bool _isWaitingServise;
     private bool _isLeaving;
 
+    public bool IsWaiting()
+    {
+        return _isWaitingServise;
+    }
+
     private void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
@@ -31,6 +36,7 @@ public class AI_Movement : MonoBehaviour
         if (_isServed)
         {
             _agent.SetDestination(_endPoint.position);
+            Debug.Log("CustomerHappy");
         }
         else
         {
@@ -49,7 +55,6 @@ public class AI_Movement : MonoBehaviour
 
         if (_isWaitingServise)
         {
-            _timeLeft -= Time.deltaTime;
             if (_timeLeft <= 0)
             {
                 _isServed = false;
@@ -57,14 +62,15 @@ public class AI_Movement : MonoBehaviour
             }
         }
 
-    }    
+    }
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("CashReg"))
         {
             _timeLeft = _waitTime;
             _isWaitingServise = true;
+            StartCoroutine(WaitingForService());
         }
         if (other.CompareTag("Exit") && _isLeaving)
         {
@@ -72,8 +78,20 @@ public class AI_Movement : MonoBehaviour
         }
     }
 
-    public void CustomServed()
+   private IEnumerator WaitingForService()
     {
+        while (_isWaitingServise && _timeLeft > 0)
+        {
+            _timeLeft -= Time.deltaTime;
+            yield return null;
+        }
+
+    }
+
+    public void CustomerServed()
+    {
+        StopCoroutine(WaitingForService());
+
         _isServed = true;
         _isWaitingServise = false;
     }
