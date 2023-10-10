@@ -8,8 +8,8 @@ public class AI_Movement : MonoBehaviour
     private NavMeshAgent _agent;
     private Animator _animator;
     [SerializeField] private float rotationSpeed;
-    [SerializeField] private Transform _cashRegister;
-    [SerializeField] private Transform _endPoint;
+    private GameObject _cashRegister;
+    private GameObject _endPoint;
     [SerializeField] private float _waitTime;
 
     private float _timeLeft;
@@ -25,6 +25,8 @@ public class AI_Movement : MonoBehaviour
 
     private void Start()
     {
+        _cashRegister = GameObject.Find("CashRegister");
+        _endPoint = GameObject.Find("Exit");
         _agent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
 
@@ -38,22 +40,22 @@ public class AI_Movement : MonoBehaviour
 
         if (_isServed)
         {
-            _agent.SetDestination(_endPoint.position);
+            _agent.SetDestination(_endPoint.transform.position);
             Debug.Log("CustomerHappy");
         }
         else
         {
-            _agent.SetDestination(_cashRegister.position);
+            _agent.SetDestination(_cashRegister.transform.position);
         }
 
         if (!_isServed && _isLeaving)
         {
-            _agent.SetDestination(_endPoint.position);
+            _agent.SetDestination(_endPoint.transform.position);
         }
 
         if (_isServed && !_isWaitingServise)
         {
-            _agent.SetDestination(_endPoint.position);
+            _agent.SetDestination(_endPoint.transform.position);
         }
 
         if (_isWaitingServise)
