@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class AI_Movement : MonoBehaviour
 {
     private NavMeshAgent _agent;
-   // private Animator animator;
+    private Animator _animator;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private Transform _cashRegister;
     [SerializeField] private Transform _endPoint;
@@ -26,6 +26,8 @@ public class AI_Movement : MonoBehaviour
     private void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
+        _animator = GetComponent<Animator>();
+
         _isServed = false;
         _isWaitingServise = false;
         _timeLeft = 0f;
@@ -33,6 +35,7 @@ public class AI_Movement : MonoBehaviour
 
     private void Update()
     {
+
         if (_isServed)
         {
             _agent.SetDestination(_endPoint.position);
@@ -61,6 +64,7 @@ public class AI_Movement : MonoBehaviour
                 _isLeaving = true;
             }
         }
+        _animator.SetFloat("Speed", _agent.speed);
 
     }
 
@@ -78,11 +82,13 @@ public class AI_Movement : MonoBehaviour
         }
     }
 
-   private IEnumerator WaitingForService()
+    private IEnumerator WaitingForService()
     {
         while (_isWaitingServise && _timeLeft > 0)
         {
             _timeLeft -= Time.deltaTime;
+            _animator.SetFloat("Speed", 0f);
+
             yield return null;
         }
 
