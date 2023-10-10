@@ -4,10 +4,15 @@
 TagManager:
   serializedVersion: 2
   tags:
+ ShroomikCode
+
+  - Product
+  - Litter
   - Customer
   - CashReg
   - Exit
   - Generator
+ master
   layers:
   - Default
   - TransparentFX
