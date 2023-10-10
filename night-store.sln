@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{8208AC49-EF3B-147C-08B6-2AA9951A5F9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "asset-store-tools-editor", "asset-store-tools-editor.csproj", "{8E11AE51-9FAC-C4DB-6044-B7E1D4BDBD9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{A734644F-4E37-02A4-B6D1-C0BE72FD2506}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{8208AC49-EF3B-147C-08B6-2AA9951A5F9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,14 +11,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8E11AE51-9FAC-C4DB-6044-B7E1D4BDBD9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E11AE51-9FAC-C4DB-6044-B7E1D4BDBD9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E11AE51-9FAC-C4DB-6044-B7E1D4BDBD9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E11AE51-9FAC-C4DB-6044-B7E1D4BDBD9F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8208AC49-EF3B-147C-08B6-2AA9951A5F9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8208AC49-EF3B-147C-08B6-2AA9951A5F9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8208AC49-EF3B-147C-08B6-2AA9951A5F9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8208AC49-EF3B-147C-08B6-2AA9951A5F9B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A734644F-4E37-02A4-B6D1-C0BE72FD2506}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A734644F-4E37-02A4-B6D1-C0BE72FD2506}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A734644F-4E37-02A4-B6D1-C0BE72FD2506}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A734644F-4E37-02A4-B6D1-C0BE72FD2506}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
