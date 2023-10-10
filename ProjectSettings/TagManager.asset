@@ -4,9 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Customer
-  - CashReg
-  - Exit
+  - Product
+  - Litter
+
   layers:
   - Default
   - TransparentFX
