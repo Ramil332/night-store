@@ -7,6 +7,10 @@ public class RaycastOutline : MonoBehaviour
     [SerializeField] private Camera _camera;
     private float _rayDistance = 4f;
     private Outline _lastOulinedObject;
+    private void Start()
+    {
+        
+    }
     void Update()
     {
         RaycastHit hit;
