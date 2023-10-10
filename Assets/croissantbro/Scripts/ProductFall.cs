@@ -11,22 +11,12 @@ public class ProductFall : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.H))
         {
-            if (Products[_num].transform.eulerAngles.y > 90)
-            {
 
-                Vector3 currentRotation = Products[_num].transform.eulerAngles;
-                Products[_num].transform.eulerAngles = new Vector3(-30, currentRotation.y, currentRotation.z);
-                _num++;
-                Debug.Log("1");
-            }
-            else if(Products[_num].transform.eulerAngles.y < 90)
-            {
-                Vector3 currentRotation = Products[_num].transform.eulerAngles;
-                Products[_num].transform.eulerAngles = new Vector3(-30, currentRotation.y, currentRotation.z);
-                _num++;
-                Debug.Log("2");
-            }
+            Vector3 currentRotation = Products[_num].transform.eulerAngles;
+            Products[_num].transform.eulerAngles = new Vector3(-30, currentRotation.y, currentRotation.z);
+            _num++;
         }
+                
         
     }
 
