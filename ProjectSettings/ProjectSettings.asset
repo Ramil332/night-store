@@ -844,8 +844,8 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: overnight at the store
-  metroPackageVersion: 
+  metroPackageName: overnightatthestore
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -853,7 +853,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: overnight at the store
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: overnight at the store
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0

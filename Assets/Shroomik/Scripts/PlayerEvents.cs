@@ -25,6 +25,7 @@ public class PlayerEvents : MonoBehaviour
         GlobalEvents.OnGeneratorBroke += GeneratorBroke;
         _customerText.gameObject.SetActive(false);
         _generatorText.gameObject.SetActive(false);
+        Cursor.visible = false;
     }
 
 
