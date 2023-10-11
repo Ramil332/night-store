@@ -113,8 +113,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 15
-  _cashRegister: {fileID: 0}
-  _endPoint: {fileID: 0}
   _waitTime: 5
 --- !u!143 &3725967681191287474
 CharacterController:

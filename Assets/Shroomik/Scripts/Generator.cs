@@ -26,14 +26,12 @@ public class Generator : MonoBehaviour
     {
         _lights.SetActive(false);
         _isBroken = true;
-        Debug.Log("Generator broke");
     }
     
     public void GeneratorFixed()
     {
         _isBroken = false;
         _lights.SetActive(true);
-        Debug.Log("Generator fixed");
 
     }
 }
