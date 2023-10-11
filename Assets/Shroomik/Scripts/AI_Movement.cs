@@ -7,9 +7,11 @@ public class AI_Movement : MonoBehaviour
 {
     private NavMeshAgent _agent;
     private Animator _animator;
-    [SerializeField] private float rotationSpeed;
+
     private GameObject _cashRegister;
     private GameObject _endPoint;
+
+    [Header("Время ожидания на кассе")]
     [SerializeField] private float _waitTime;
 
     private float _timeLeft;
@@ -17,7 +19,7 @@ public class AI_Movement : MonoBehaviour
     private bool _isServed;
     private bool _isWaitingServise;
     private bool _isLeaving;
-
+    private bool _isHappy;
     public bool IsWaiting()
     {
         return _isWaitingServise;
@@ -37,11 +39,10 @@ public class AI_Movement : MonoBehaviour
 
     private void Update()
     {
-
         if (_isServed)
         {
+            _isHappy = true;
             _agent.SetDestination(_endPoint.transform.position);
-            Debug.Log("CustomerHappy");
         }
         else
         {
@@ -50,13 +51,16 @@ public class AI_Movement : MonoBehaviour
 
         if (!_isServed && _isLeaving)
         {
+            _isHappy = false;
+
+            _isWaitingServise = false;
             _agent.SetDestination(_endPoint.transform.position);
         }
 
-        if (_isServed && !_isWaitingServise)
-        {
-            _agent.SetDestination(_endPoint.transform.position);
-        }
+        //if (_isServed && !_isWaitingServise)
+        //{
+        //    _agent.SetDestination(_endPoint.transform.position);
+        //}
 
         if (_isWaitingServise)
         {
@@ -67,13 +71,18 @@ public class AI_Movement : MonoBehaviour
             }
         }
         _animator.SetFloat("Speed", _agent.speed);
-
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("CashReg"))
         {
+            ICustomer customer = other.gameObject.GetComponent<ICustomer>();
+            if (customer != null)
+            {
+                customer.Approuched(_waitTime);
+            }
+
             _timeLeft = _waitTime;
             _isWaitingServise = true;
             StartCoroutine(WaitingForService());
@@ -81,6 +90,15 @@ public class AI_Movement : MonoBehaviour
         if (other.CompareTag("Exit") && _isLeaving)
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        ICustomer customer = other.gameObject.GetComponent<ICustomer>();
+        if (customer != null)
+        {
+            customer.Leave(_isHappy);
         }
     }
 
@@ -102,5 +120,6 @@ public class AI_Movement : MonoBehaviour
 
         _isServed = true;
         _isWaitingServise = false;
+        _isLeaving = true;
     }
 }

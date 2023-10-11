@@ -3,17 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class CashReg : MonoBehaviour
+public class CashReg : MonoBehaviour, ICustomer
 {
-    public static Action OnCustomerApprouched;
+    public static Action <float> OnCustomerApprouched;
+    public static Action<int> OnCustomerLeaveHappy;
+    public static Action<int> OnCustomerLeaveUnHappy;
 
-    private void OnTriggerEnter(Collider other)
+    [SerializeField] [Range(0, 1000)] private int _penalty;
+    [SerializeField] [Range(0, 1000)] private int _reward;
+
+    private float _waitTime;
+
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.CompareTag("Customer"))
+    //    {
+    //        OnCustomerApprouched?.Invoke();
+    //    }
+    //}
+
+    public void Approuched(float time)
     {
-        if (other.CompareTag("Customer"))
-        {
-            OnCustomerApprouched?.Invoke();
-        }
+        _waitTime = time;
+        OnCustomerApprouched?.Invoke(_waitTime);
     }
 
-
+    public void Leave(bool served)
+    {
+        if (served)
+        {
+            OnCustomerLeaveHappy?.Invoke(_reward);
+        }
+        else
+        {
+            OnCustomerLeaveUnHappy?.Invoke(_penalty);
+        }
+    }
 }
