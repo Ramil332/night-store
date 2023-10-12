@@ -1052,7 +1052,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 621189376}
-  speed: 12
+  speed: 4
   gravity: -9.81
   PlayerMove: 1
 --- !u!143 &621189376
