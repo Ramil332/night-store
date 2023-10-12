@@ -9,6 +9,7 @@ TagManager:
   - Exit
   - Customer
   - Litter
+  - Product
   layers:
   - Default
   - TransparentFX
@@ -19,8 +20,8 @@ TagManager:
   - Customer
   - Generator
   - ppv
-  - 
-  - 
+  - CashReg
+  - Garbage
   - 
   - 
   - 

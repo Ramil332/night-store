@@ -1,20 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LitterSpawn : MonoBehaviour
 {
-    public List<GameObject> SpawnPointList;
-    [SerializeField] private GameObject _litter;
-    private int _num = 0;
+    [SerializeField] private Transform[] _spawnPointList;
+    [SerializeField] private Transform[] _litter;
 
-    private void Update()
+
+
+
+    private void OnEnable()
     {
-        
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            Instantiate(_litter, SpawnPointList[_num].transform.position, Quaternion.identity);
-            _num++;   
-        }
+        GlobalEvents.OnSpawnLitter += SpawnTrash;
+    }
+    private void OnDisable()
+    {
+        GlobalEvents.OnSpawnLitter -= SpawnTrash;
+    }
+
+    private void SpawnTrash()
+    {
+        int _numLitter = Random.Range(0, _litter.Length);
+        int _numSpawn = Random.Range(0, _spawnPointList.Length);
+        Instantiate(_litter[_numLitter], _spawnPointList[_numSpawn].transform.position, Quaternion.identity);
     }
 }

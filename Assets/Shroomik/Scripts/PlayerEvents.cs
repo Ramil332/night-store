@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class PlayerEvents : MonoBehaviour
 {
     [SerializeField] private TMP_Text _customerText;
     [SerializeField] private TMP_Text _generatorText;
+    [SerializeField] private TMP_Text _garbageText;
 
     [SerializeField] private GameObject _sellerPanel;
     [SerializeField] private GameObject _generatorPanel;
@@ -15,16 +17,24 @@ public class PlayerEvents : MonoBehaviour
     [SerializeField] private LayerMask _generatorMask;
 
     private bool _isProvidingService, _isFixingGen;
+    private bool _isInteracting = false;
+    private float _interactTime = 2f;
+    private float _currentInteractTime = 0f;
 
+    private Coroutine interactCoroutine;
+    private bool isDone = false;
     private IEnumerator _coroutine;
+    public Image FillArea;
     private void OnEnable()
     {
         CashReg.OnCustomerApprouched += CustomerNeedServise;
         _sellerPanel.SetActive(false);
-
+        PlayerInteract.OnCollectTrash += CollectLitter;
         GlobalEvents.OnGeneratorBroke += GeneratorBroke;
+        GlobalEvents.OnSpawnLitter += SpawnLitter;
         _customerText.gameObject.SetActive(false);
         _generatorText.gameObject.SetActive(false);
+        _garbageText.gameObject.SetActive(false);
         Cursor.visible = false;
     }
 
@@ -33,13 +43,24 @@ public class PlayerEvents : MonoBehaviour
     {
         CashReg.OnCustomerApprouched -= CustomerNeedServise;
         GlobalEvents.OnGeneratorBroke -= GeneratorBroke;
+        PlayerInteract.OnCollectTrash -= CollectLitter;
+        GlobalEvents.OnSpawnLitter -= SpawnLitter;
+    }
 
+    private void SpawnLitter()
+    {
+        _garbageText.gameObject.SetActive(true);
+    }
+    private void CollectLitter() { 
+        _garbageText.gameObject.SetActive(false) ;
     }
 
     private void GeneratorBroke()
     {
         _generatorText.gameObject.SetActive(true);
     }
+
+
 
     private void CustomerNeedServise(float waitTime)
     {
@@ -92,6 +113,7 @@ public class PlayerEvents : MonoBehaviour
         RepairGenerator();
     }
 
+
     private void ProvideService()
     {
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, Mathf.Infinity, _customerMask)
@@ -126,10 +148,28 @@ public class PlayerEvents : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                _generatorPanel.SetActive(false);
-                generator.collider.GetComponent<Generator>().GeneratorFixed();
-                _generatorText.gameObject.SetActive(false);
+                _isInteracting = true;
+                interactCoroutine = StartCoroutine(InteractCoroutine());
 
+            }
+            if (Input.GetKeyUp(KeyCode.E) || isDone)
+            {
+                _isInteracting = false;
+                if (interactCoroutine != null)
+                {
+                    StopCoroutine(interactCoroutine);
+                    interactCoroutine = null;
+
+                    if (generator.collider != null && isDone)
+                    {
+                        _generatorPanel.SetActive(false);
+                        generator.collider.GetComponent<Generator>().GeneratorFixed();
+                        _generatorText.gameObject.SetActive(false);
+                        isDone = false;
+                    }
+                }
+                _currentInteractTime = 0f;
+                FillArea.fillAmount = 0f;
             }
         }
         else
@@ -138,5 +178,21 @@ public class PlayerEvents : MonoBehaviour
         }
 
 
+    }
+    private IEnumerator InteractCoroutine()
+    {
+        while (_isInteracting && _currentInteractTime < _interactTime)
+        {
+            _currentInteractTime += Time.deltaTime;
+            float fillAmount = _currentInteractTime / _interactTime;
+            FillArea.fillAmount = fillAmount;
+            yield return null;
+        }
+        if (_isInteracting)
+        {
+            isDone = true;
+            
+
+        }
     }
 }

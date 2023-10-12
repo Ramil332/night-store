@@ -32,10 +32,12 @@ public class CashReg : MonoBehaviour, ICustomer
     {
         if (served)
         {
+            Debug.Log("fa");
             OnCustomerLeaveHappy?.Invoke(_reward);
         }
         else
         {
+            Debug.Log("Un");
             OnCustomerLeaveUnHappy?.Invoke(_penalty);
         }
     }
