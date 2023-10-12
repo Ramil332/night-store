@@ -83,6 +83,7 @@ public class PlayerInteract : MonoBehaviour
     private Coroutine interactCoroutine; 
     private LitterInteractable interactable; 
     private bool isDone = false;
+    [SerializeField] private GameObject _tipText;
 
 
     public void Update()

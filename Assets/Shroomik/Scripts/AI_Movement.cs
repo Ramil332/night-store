@@ -6,10 +6,12 @@ using UnityEngine.AI;
 public class AI_Movement : MonoBehaviour
 {
     private NavMeshAgent _agent;
-   // private Animator animator;
-    [SerializeField] private float rotationSpeed;
-    [SerializeField] private Transform _cashRegister;
-    [SerializeField] private Transform _endPoint;
+    private Animator _animator;
+
+    private GameObject _cashRegister;
+    private GameObject _endPoint;
+
+    [Header("Время ожидания на кассе")]
     [SerializeField] private float _waitTime;
 
     private float _timeLeft;
@@ -17,10 +19,19 @@ public class AI_Movement : MonoBehaviour
     private bool _isServed;
     private bool _isWaitingServise;
     private bool _isLeaving;
+    private bool _isHappy;
+    public bool IsWaiting()
+    {
+        return _isWaitingServise;
+    }
 
     private void Start()
     {
+        _cashRegister = GameObject.Find("CashRegister");
+        _endPoint = GameObject.Find("Exit");
         _agent = GetComponent<NavMeshAgent>();
+        _animator = GetComponent<Animator>();
+
         _isServed = false;
         _isWaitingServise = false;
         _timeLeft = 0f;
@@ -30,41 +41,51 @@ public class AI_Movement : MonoBehaviour
     {
         if (_isServed)
         {
-            _agent.SetDestination(_endPoint.position);
+            _isHappy = true;
+            _agent.SetDestination(_endPoint.transform.position);
         }
         else
         {
-            _agent.SetDestination(_cashRegister.position);
+            _agent.SetDestination(_cashRegister.transform.position);
         }
 
         if (!_isServed && _isLeaving)
         {
-            _agent.SetDestination(_endPoint.position);
+            _isHappy = false;
+
+            _isWaitingServise = false;
+            _agent.SetDestination(_endPoint.transform.position);
         }
 
-        if (_isServed && !_isWaitingServise)
-        {
-            _agent.SetDestination(_endPoint.position);
-        }
+        //if (_isServed && !_isWaitingServise)
+        //{
+        //    _agent.SetDestination(_endPoint.transform.position);
+        //}
 
         if (_isWaitingServise)
         {
-            _timeLeft -= Time.deltaTime;
             if (_timeLeft <= 0)
             {
                 _isServed = false;
                 _isLeaving = true;
             }
         }
+        _animator.SetFloat("Speed", _agent.speed);
+    }
 
-    }    
-
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("CashReg"))
         {
+            ICustomer customer = other.gameObject.GetComponent<ICustomer>();
+            if (customer != null)
+            {
+                customer.Approuched(_waitTime);
+            }
+
             _timeLeft = _waitTime;
             _isWaitingServise = true;
+            StartCoroutine(WaitingForService());
         }
         if (other.CompareTag("Exit") && _isLeaving)
         {
@@ -72,9 +93,33 @@ public class AI_Movement : MonoBehaviour
         }
     }
 
-    public void CustomServed()
+    private void OnTriggerExit(Collider other)
     {
+        ICustomer customer = other.gameObject.GetComponent<ICustomer>();
+        if (customer != null)
+        {
+            customer.Leave(_isHappy);
+        }
+    }
+
+    private IEnumerator WaitingForService()
+    {
+        while (_isWaitingServise && _timeLeft > 0)
+        {
+            _timeLeft -= Time.deltaTime;
+            _animator.SetFloat("Speed", 0f);
+
+            yield return null;
+        }
+
+    }
+
+    public void CustomerServed()
+    {
+        StopCoroutine(WaitingForService());
+
         _isServed = true;
         _isWaitingServise = false;
+        _isLeaving = true;
     }
 }
