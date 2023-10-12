@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Shroomik/MainMenu.unity
+    guid: 22b9207a3f60fb7438e0fb7966bef229
+  - enabled: 1
+    path: Assets/Shroomik/test_2_location.unity
+    guid: 1cf6c6dd18d34464d8e729aa7b1d9d11
   m_configObjects: {}

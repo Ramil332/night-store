@@ -4,18 +4,21 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Product
+  - CashReg
+  - Generator
+  - Exit
+  - Customer
   - Litter
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Ground
+  - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Customer
+  - Generator
+  - ppv
   - 
   - 
   - 
