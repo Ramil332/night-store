@@ -4,10 +4,11 @@ using UnityEngine;
 using System;
 public class Generator : MonoBehaviour
 {
-    [SerializeField] private GameObject _lights;
+    [SerializeField] private GameObject _lights, _whisper;
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _clip;
     private bool _isBroken;
+    private Outline outline;
 
     public static Action OnGeneratorFixed;
 
@@ -16,6 +17,7 @@ public class Generator : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _audioSource.clip = _clip;
         _audioSource.Play();
+        outline = GetComponent<Outline>();
     }
     public bool IsBroke()
     {
@@ -37,6 +39,8 @@ public class Generator : MonoBehaviour
         _lights.SetActive(false);
         _isBroken = true;
         _audioSource.Stop();
+        _whisper.SetActive(true);
+        outline.enabled = true;
 
     }
 
@@ -45,7 +49,8 @@ public class Generator : MonoBehaviour
         _isBroken = false;
         _lights.SetActive(true);
         _audioSource.Play();
-
+        _whisper.SetActive(false);
         OnGeneratorFixed?.Invoke();
+        outline.enabled = false;
     }
 }
