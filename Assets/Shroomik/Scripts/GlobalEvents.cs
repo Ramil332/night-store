@@ -13,6 +13,8 @@ public class GlobalEvents : MonoBehaviour
     [Header("Макс время до след события в сек")]
     [SerializeField] [Range(0, 300)] private float _maxNextEventTime;
 
+    [SerializeField] private GameObject _gameOverPanel;
+
     public static Action OnCustomerSpawn;
     public static Action OnGeneratorBroke;
     public static Action OnSpawnLitter;
@@ -22,8 +24,16 @@ public class GlobalEvents : MonoBehaviour
     private int _nextEventTick;
     private int _eventNum;
 
+    private void OnEnable()
+    {
+        Time.timeScale = 1f;
+        Cursor.visible = false;
+    }
+
     private void Start()
     {
+        _gameOverPanel.SetActive(false);
+
         Timer.OnTick += Timer_OnTick;
         _nightTick = 0;
         _nextEventTick = 0;
@@ -51,7 +61,9 @@ public class GlobalEvents : MonoBehaviour
 
     private void GameOver()
     {
-        Debug.Log("GameOver");
+        _gameOverPanel.SetActive(true);
+        Time.timeScale = 0f;
+        Cursor.visible = true;
     }
 
     private void CreateEvent()
@@ -75,6 +87,5 @@ public class GlobalEvents : MonoBehaviour
                 print("No events");
                 break;
         }
-        Debug.Log("Event happend");
     }
 }

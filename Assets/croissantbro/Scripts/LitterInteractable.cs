@@ -6,7 +6,6 @@ public class LitterInteractable : MonoBehaviour, ICollectable
 {
     public void Collect()
     {
-        Debug.Log("âûç");
         Destroy(this.gameObject);
     }
 
