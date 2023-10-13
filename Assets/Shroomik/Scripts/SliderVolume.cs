@@ -33,12 +33,12 @@ public class SliderVolume : MonoBehaviour
 
     public void SetMusicVolume()
     {
-        AudioManager.Instance.MusicVolume(_volumeSlider.value);
+      //  AudioManager.Instance.MusicVolume(_volumeSlider.value);
         SaveMusic();
     }
     public void SetSFXVolume()
     {
-        AudioManager.Instance.SFXVolume(_sfxSlider.value);
+      //  AudioManager.Instance.SFXVolume(_sfxSlider.value);
         SaveSFX();
     }
     public void LoadMusic()

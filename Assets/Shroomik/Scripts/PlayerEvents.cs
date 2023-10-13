@@ -35,7 +35,6 @@ public class PlayerEvents : MonoBehaviour
         _customerText.gameObject.SetActive(false);
         _generatorText.gameObject.SetActive(false);
         _garbageText.gameObject.SetActive(false);
-        Cursor.visible = false;
     }
 
 
