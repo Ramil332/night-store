@@ -11,8 +11,16 @@ public class CashReg : MonoBehaviour, ICustomer
 
     [SerializeField] [Range(0, 1000)] private int _penalty;
     [SerializeField] [Range(0, 1000)] private int _reward;
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip _clip;
 
     private float _waitTime;
+    void Start()
+    {
+        _audioSource = GetComponent<AudioSource>();
+        _audioSource.clip = _clip;
+
+    }
 
     //private void OnTriggerEnter(Collider other)
     //{
@@ -26,18 +34,18 @@ public class CashReg : MonoBehaviour, ICustomer
     {
         _waitTime = time;
         OnCustomerApprouched?.Invoke(_waitTime);
+        _audioSource.Play();
+
     }
 
     public void Leave(bool served)
     {
         if (served)
         {
-            Debug.Log("fa");
             OnCustomerLeaveHappy?.Invoke(_reward);
         }
         else
         {
-            Debug.Log("Un");
             OnCustomerLeaveUnHappy?.Invoke(_penalty);
         }
     }

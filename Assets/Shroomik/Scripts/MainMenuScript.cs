@@ -52,4 +52,9 @@ public class MainMenuScript : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(_startButton);
     }
+
+    public void URL(string link)
+    {
+        Application.OpenURL(link);
+    }
 }

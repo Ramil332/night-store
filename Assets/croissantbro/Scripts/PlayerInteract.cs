@@ -54,7 +54,7 @@ public class PlayerInteract : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            float interactRange = 2f;
+           // float interactRange = 2f;
             //Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange);
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, Mathf.Infinity, _garbageMask))
             {

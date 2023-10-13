@@ -1,45 +1,37 @@
-using UnityEngine.Audio;
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using System;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
+    [System.Serializable]
+    public class Sound
+    {
+        public string name;
 
+        public AudioClip clip;
+
+        [Range(0f, 1f)] public float volume;
+
+        [Range(.1f, 3f)] public float pitch;
+        [Range(-1f, 1f)] public float stereoPan;
+
+        [Range(0, 256)] public int priority;
+
+
+        public bool loop;
+        public bool hasCooldown;
+    }
     public Sound[] _musicSounds, _sfxSounds;
     public AudioSource _musicSource, _sfxSource;
 
-    public static AudioManager Instance;
-
-
-    void Awake()
-    {
-       // Cursor.visible = false;
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        if (PlayerPrefs.HasKey("MusicVolume"))
-        {
-            _musicSource.volume = PlayerPrefs.GetFloat("MusicVolume");
-        }
-
-        if (PlayerPrefs.HasKey("SFXVolume"))
-        {
-            _sfxSource.volume = PlayerPrefs.GetFloat("SFXVolume");
-        }
-    }
-
     private void Start()
     {
-        PlayMusic("Menu");
+        PlayMusic("Test");
     }
+
     public void PlayMusic(string name)
     {
         Sound s = Array.Find(_musicSounds, sound => sound.name == name);
@@ -65,7 +57,6 @@ public class AudioManager : MonoBehaviour
             _musicSource.Play();
         }
     }
-
     public void PlaySFX(string name)
     {
         Sound s = Array.Find(_sfxSounds, sound => sound.name == name);
@@ -95,30 +86,6 @@ public class AudioManager : MonoBehaviour
 
             _sfxSource.PlayOneShot(s.clip);
         }
-    }
-    public void StopSFX(string name)
-    {
-        Sound s = Array.Find(_sfxSounds, sound => sound.name == name);
-        if (s == null)
-        {
-            Debug.LogWarning("Sound: " + name + "not found!");
-            return;
-        }
-        else
-        {
-            _sfxSource.clip = s.clip;
-            _sfxSource.Stop();
-
-        }
-    }
-    public void MusicVolume(float volume)
-    {
-        _musicSource.volume = volume;
-    }
-
-    public void SFXVolume(float volume)
-    {
-        _sfxSource.volume = volume;
     }
 
 }
