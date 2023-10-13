@@ -63,7 +63,7 @@ public class GlobalEvents : MonoBehaviour
     {
         _gameOverPanel.SetActive(true);
         Time.timeScale = 0f;
-        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     private void CreateEvent()
