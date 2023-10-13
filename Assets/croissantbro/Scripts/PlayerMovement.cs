@@ -18,16 +18,16 @@ using System;
         public bool PlayerMove = true;
       
 
-        void Start()
+        private void Start()
         {
-            
+        
+        
         }
 
         
         
         void Update()
         {
-            
             if (PlayerMove)
             {
 
@@ -42,7 +42,10 @@ using System;
 
                 controller.Move(velocity * Time.deltaTime);
 
+            }
+            if(Input.GetKeyDown(KeyCode.J)) {
+            
         }
     
-    }
+        }
 }

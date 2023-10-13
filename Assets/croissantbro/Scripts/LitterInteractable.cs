@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LitterInteractable : MonoBehaviour
+public class LitterInteractable : MonoBehaviour, ICollectable
 {
-    public void Interact()
+    public void Collect()
     {
-        Destroy(gameObject);
+        Debug.Log("âûç");
+        Destroy(this.gameObject);
     }
 
 }

@@ -1,53 +1,39 @@
-/*
- Тут код намного лучше, но надо придумать как вызвать действие(удаление мусора) после окончания корутины
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class PlayerInteract : MonoBehaviour
 {
     private float _interactTime = 2f;
     public Image FillArea;
-
     private bool _isInteracting = false;
     private float _currentInteractTime = 0f;
-    private bool isDone;
-    void Start()
-    {
+    private Coroutine interactCoroutine; 
+    private ICollectable interactable; 
+    private bool isDone = false;
+    [SerializeField] private GameObject _garbagePanel;
+    [SerializeField] private LayerMask _garbageMask;
 
-    }
+    public static Action OnCollectTrash;
+    
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit trashHit, 2f, _garbageMask))
         {
-
-            float interactRange = 2f;
-            Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange);
-            foreach (Collider collider in colliderArray)
-            {
-                if (collider.TryGetComponent(out LitterInteractable interactable))
-                {
-                    _isInteracting = true;
-                    StartCoroutine(InteractCoroutine());
-                    if (isDone)
-                    {
-                        interactable.Interact();
-                        isDone = !isDone;
-                    }
-                    
-                }
-            }
+            ICollectable collectable = trashHit.collider.GetComponent<ICollectable>();
+            if (collectable != null)
+            _garbagePanel.SetActive(true);
+            
         }
-        if (Input.GetKeyUp(KeyCode.E)||isDone)
-        {
-            _isInteracting = false;
-            StopCoroutine(InteractCoroutine());
-            _currentInteractTime = 0f;
-            FillArea.fillAmount = 0f;
-        }
+        else _garbagePanel.SetActive(false);
+        GarbageCollect();
     }
+
     private IEnumerator InteractCoroutine()
     {
         while (_isInteracting && _currentInteractTime < _interactTime)
@@ -57,82 +43,56 @@ public class PlayerInteract : MonoBehaviour
             FillArea.fillAmount = fillAmount;
             yield return null;
         }
-        
         if (_isInteracting)
         {
             isDone = true;
+            OnCollectTrash?.Invoke();
+
         }
     }
-}
- */
-
-
-// А этот код хотя бы работает
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
-public class PlayerInteract : MonoBehaviour
-{
-    private float _interactTime = 2f;
-    public Image FillArea;
-
-    private bool _isInteracting = false;
-    private float _currentInteractTime = 0f;
-    private Coroutine interactCoroutine; 
-    private LitterInteractable interactable; 
-    private bool isDone = false;
-    [SerializeField] private GameObject _tipText;
-
-
-    public void Update()
+    private void GarbageCollect()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
             float interactRange = 2f;
-            Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange);
-            interactable = null; 
-            foreach (Collider collider in colliderArray)
+            //Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange);
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, Mathf.Infinity, _garbageMask))
             {
-                if (collider.TryGetComponent(out LitterInteractable interact))
+                interactable = hit.collider.GetComponent<ICollectable>();
+                if (interactable != null)
                 {
-                    interactable = interact;
+                    //interactable.Collect();
                     _isInteracting = true;
-                    interactCoroutine = StartCoroutine(InteractCoroutine()); 
+                    interactCoroutine = StartCoroutine(InteractCoroutine());
                 }
             }
+            //interactable = null; 
+
+            //foreach (Collider collider in colliderArray)
+            //{
+            //    if (collider.TryGetComponent(out LitterInteractable interact))
+            //    {
+
+            //    }
+            //}
         }
         if (Input.GetKeyUp(KeyCode.E) || isDone)
         {
             _isInteracting = false;
-            if (interactCoroutine != null) 
+            if (interactCoroutine != null)
             {
                 StopCoroutine(interactCoroutine);
-                interactCoroutine = null; 
-                if (interactable != null && isDone) 
+                interactCoroutine = null;
+
+                if (interactable != null && isDone)
                 {
-                    interactable.Interact(); 
+
+                    interactable.Collect();
                     isDone = false;
                 }
             }
             _currentInteractTime = 0f;
             FillArea.fillAmount = 0f;
-        }
-    }
-
-    private IEnumerator InteractCoroutine()
-    {
-        while (_isInteracting && _currentInteractTime < _interactTime)
-        {
-            _currentInteractTime += Time.deltaTime;
-            float fillAmount = _currentInteractTime / _interactTime;
-            FillArea.fillAmount = fillAmount;
-            yield return null;
-        }
-        if (_isInteracting)
-        {
-            isDone = true;
         }
     }
 }
