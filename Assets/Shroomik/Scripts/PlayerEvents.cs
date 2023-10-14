@@ -9,6 +9,7 @@ public class PlayerEvents : MonoBehaviour
     [SerializeField] private TMP_Text _customerText;
     [SerializeField] private TMP_Text _generatorText;
     [SerializeField] private TMP_Text _garbageText;
+    [SerializeField] private TMP_Text _fallenItemsText;
 
     [SerializeField] private GameObject _sellerPanel;
     [SerializeField] private GameObject _generatorPanel;
@@ -32,9 +33,11 @@ public class PlayerEvents : MonoBehaviour
         PlayerInteract.OnCollectTrash += CollectLitter;
         GlobalEvents.OnGeneratorBroke += GeneratorBroke;
         GlobalEvents.OnSpawnLitter += SpawnLitter;
+        GlobalEvents.OnItemsFall += ItemFall;
         _customerText.gameObject.SetActive(false);
         _generatorText.gameObject.SetActive(false);
         _garbageText.gameObject.SetActive(false);
+        _fallenItemsText.gameObject.SetActive(false);
     }
 
 
@@ -44,6 +47,7 @@ public class PlayerEvents : MonoBehaviour
         GlobalEvents.OnGeneratorBroke -= GeneratorBroke;
         PlayerInteract.OnCollectTrash -= CollectLitter;
         GlobalEvents.OnSpawnLitter -= SpawnLitter;
+        GlobalEvents.OnItemsFall -= ItemFall;
     }
 
     private void SpawnLitter()
@@ -59,6 +63,15 @@ public class PlayerEvents : MonoBehaviour
         _generatorText.gameObject.SetActive(true);
     }
 
+    private void ItemFall()
+    {
+        _fallenItemsText.gameObject.SetActive(true) ;
+    }
+    
+    private void ItemPickUp()
+    {
+        _fallenItemsText.gameObject.SetActive(false) ;
+    }
 
 
     private void CustomerNeedServise(float waitTime)

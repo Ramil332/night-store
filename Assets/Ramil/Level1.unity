@@ -2581,6 +2581,7 @@ MonoBehaviour:
   _customerText: {fileID: 546152572}
   _generatorText: {fileID: 1394160857}
   _garbageText: {fileID: 973342423}
+  _fallenItemsText: {fileID: 0}
   _sellerPanel: {fileID: 1672286114}
   _generatorPanel: {fileID: 2085124688}
   _customerMask:
@@ -2694,12 +2695,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d58cc3b0e324b5a44a55ddc489a66cdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Products:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  _products: []
+  FillArea: {fileID: 0}
+  _garbagePanel: {fileID: 0}
+  _productMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &73414166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17032,7 +17033,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2a02f6fe45ef1a845a8b9997d156e465, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.61
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -75993,7 +75994,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2a02f6fe45ef1a845a8b9997d156e465, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.61
   m_Pitch: 1
   Loop: 1
   Mute: 0

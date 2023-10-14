@@ -18,6 +18,7 @@ public class GlobalEvents : MonoBehaviour
     public static Action OnCustomerSpawn;
     public static Action OnGeneratorBroke;
     public static Action OnSpawnLitter;
+    public static Action OnItemsFall;
 
 
     private int _nightTick;
@@ -68,7 +69,7 @@ public class GlobalEvents : MonoBehaviour
 
     private void CreateEvent()
     {
-        _eventNum = UnityEngine.Random.Range(0, 3); // здесь максимум это число общих событий
+        _eventNum = UnityEngine.Random.Range(0, 4); // здесь максимум это число общих событий
         switch (_eventNum)
         {
             case 0:
@@ -76,12 +77,19 @@ public class GlobalEvents : MonoBehaviour
                 break;
 
             case 1:
-                OnGeneratorBroke?.Invoke();
+                OnItemsFall?.Invoke();
                 break;
 
             case 2:
                 OnSpawnLitter?.Invoke();
                 break;
+
+            case 3:
+                OnGeneratorBroke?.Invoke();
+                break;
+
+
+            
 
             default:
                 print("No events");
