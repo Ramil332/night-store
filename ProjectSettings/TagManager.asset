@@ -10,6 +10,7 @@ TagManager:
   - Customer
   - Litter
   - Product
+  - Door
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - ppv
   - CashReg
   - Garbage
-  - 
+  - Door
   - 
   - 
   - 
